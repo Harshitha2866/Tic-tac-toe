@@ -1,74 +1,50 @@
-let board = ['', '', '', '', '', '', '', '', ''];
-let currentPlayer = '♚'; // Start with King
+let currentPlayer = "X";
+let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
 
+const statusDisplay = document.getElementById("status");
+
 const winningConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
+    [0,1,2], [3,4,5], [6,7,8], // rows
+    [0,3,6], [1,4,7], [2,5,8], // columns
+    [0,4,8], [2,4,6]           // diagonals
 ];
 
 function makeMove(index) {
-    if (board[index] !== '' || !gameActive) {
-        return;
-    }
+    if (!gameActive || board[index] !== "") return;
 
     board[index] = currentPlayer;
-    document.getElementById(`cell-${index}`).textContent = currentPlayer;
+    document.getElementById(`cell-${index}`).innerText = currentPlayer;
 
-    checkForWinner();
-}
-
-function checkForWinner() {
-    let roundWon = false;
-
-    for (let i = 0; i < winningConditions.length; i++) {
-        const [a, b, c] = winningConditions[i];
-        if (board[a] === '' || board[b] === '' || board[c] === '') {
-            continue;
-        }
-
-        if (board[a] === board[b] && board[b] === board[c]) {
-            roundWon = true;
-            highlightWinningCells(a, b, c);
-            break;
-        }
-    }
-
-    if (roundWon) {
-        document.getElementById('status').textContent = `Player ${currentPlayer} Wins! 🎉`;
+    if (checkWinner()) {
+        statusDisplay.innerText = `Player ${currentPlayer} Wins! 🎉`;
         gameActive = false;
         return;
     }
 
-    if (!board.includes('')) {
-        document.getElementById('status').textContent = 'It\'s a Draw! 🤝';
+    if (!board.includes("")) {
+        statusDisplay.innerText = "It's a Draw!";
         gameActive = false;
         return;
     }
 
-    currentPlayer = currentPlayer === '♚' ? '♘' : '♚'; // Toggle between King and Knight
-    document.getElementById('status').textContent = `Player ${currentPlayer}'s Turn`;
+    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    statusDisplay.innerText = `Player ${currentPlayer}'s Turn`;
 }
 
-function highlightWinningCells(a, b, c) {
-    document.getElementById(`cell-${a}`).classList.add('winning');
-    document.getElementById(`cell-${b}`).classList.add('winning');
-    document.getElementById(`cell-${c}`).classList.add('winning');
+function checkWinner() {
+    return winningConditions.some(condition => {
+        return condition.every(index => board[index] === currentPlayer);
+    });
 }
 
 function resetGame() {
-    board = ['', '', '', '', '', '', '', '', ''];
-    currentPlayer = '♚';
+    currentPlayer = "X";
+    board = ["", "", "", "", "", "", "", "", ""];
     gameActive = true;
-    document.getElementById('status').textContent = 'Player ♚\'s Turn';
-    document.querySelectorAll('.cell').forEach(cell => {
-        cell.textContent = '';
-        cell.classList.remove('winning');
-    });
+    statusDisplay.innerText = "Player X's Turn";
+
+    for (let i = 0; i < 9; i++) {
+        document.getElementById(`cell-${i}`).innerText = "";
+    }
 }
