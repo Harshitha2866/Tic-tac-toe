@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Tic Tac Toe</title>
+    <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Chess Tic Tac Toe</h1>
+        <h1>Tic Tac Toe</h1>
         <div class="game-board">
             <div class="cell" id="cell-0" onclick="makeMove(0)"></div>
             <div class="cell" id="cell-1" onclick="makeMove(1)"></div>
@@ -20,13 +20,9 @@
             <div class="cell" id="cell-7" onclick="makeMove(7)"></div>
             <div class="cell" id="cell-8" onclick="makeMove(8)"></div>
         </div>
-        <p id="status">Player ♚'s Turn</p>
+        <p id="status">Player X's Turn</p>
         <button id="resetButton" onclick="resetGame()">Reset Game</button>
     </div>
-
-    <footer>
-        <p>Created with ❤️ by Chess Tic Tac Toe Enthusiasts</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
